@@ -128,3 +128,43 @@
     @apply font-sans;
   }
 }
+
+@keyframes arcade-flicker {
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  10% { opacity: 0.2; }
+  15% { opacity: 1; }
+  20% { opacity: 0.4; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  75% { opacity: 0.3; }
+  80% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.arcade-flicker {
+  animation: arcade-flicker 1.8s infinite;
+}
+
+@keyframes neon-pulse {
+  0% {
+    text-shadow: 0 0 5px rgba(20, 184, 166, 0.3),
+                 0 0 10px rgba(20, 184, 166, 0.2);
+    opacity: 0.9;
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(20, 184, 166, 0.8),
+                 0 0 20px rgba(20, 184, 166, 0.6),
+                 0 0 30px rgba(20, 184, 166, 0.4);
+    opacity: 1;
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(20, 184, 166, 0.3),
+                 0 0 10px rgba(20, 184, 166, 0.2);
+    opacity: 0.9;
+  }
+}
+
+.neon-pulse {
+  animation: neon-pulse 2.5s ease-in-out infinite;
+}
