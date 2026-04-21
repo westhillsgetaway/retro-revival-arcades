@@ -22,6 +22,7 @@ export default function ArcadeSite() {
 function ContactForm() {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,12 +40,21 @@ function ContactForm() {
 
     if (res.ok) {
       setSuccess(true);
-      e.currentTarget.reset();
+      formRef.current?.reset();
+
+      // Reset Turnstile after submit
+      if ((window as any).turnstile) {
+        (window as any).turnstile.reset();
+      }
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-5">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className="max-w-2xl mx-auto space-y-5"
+    >
       <Input
         name="name"
         placeholder="Your Name"
@@ -67,12 +77,14 @@ function ContactForm() {
         required
       />
 
-<div className="flex justify-center">
-  <div
-    className="cf-turnstile"
-    data-sitekey="0x4AAAAAADAa3WD4Sp0P1ByD"
-  />
-</div>
+      {/* ✅ CLEAN TURNSTILE (no React hacks needed) */}
+      <div className="flex justify-center">
+        <div
+          className="cf-turnstile"
+          data-sitekey="0x4AAAAAADAa3WD4Sp0P1ByD"
+          data-theme="dark"
+        />
+      </div>
 
       <Button
         type="submit"
