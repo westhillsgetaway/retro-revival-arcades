@@ -102,7 +102,11 @@ function ContactForm() {
 
       {/* TURNSTILE (stable mount target) */}
       <div className="flex justify-center">
-        <div ref={turnstileRef} />
+        <div
+  className="cf-turnstile"
+  data-sitekey="0x4AAAAAADAa3WD4Sp0P1ByD"
+  data-callback="onTurnstileSuccess"
+/>
       </div>
 
       <Button
