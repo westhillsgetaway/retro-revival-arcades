@@ -23,6 +23,22 @@ function ContactForm() {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const formRef = React.useRef<HTMLFormElement>(null);
+  const turnstileRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // Ensure Turnstile loads only once per mount
+    if (
+      typeof window !== "undefined" &&
+      (window as any).turnstile &&
+      turnstileRef.current &&
+      turnstileRef.current.childNodes.length === 0
+    ) {
+      (window as any).turnstile.render(turnstileRef.current, {
+        sitekey: "0x4AAAAAADAa3WD4Sp0P1ByD",
+        theme: "dark",
+      });
+    }
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,9 +58,9 @@ function ContactForm() {
       setSuccess(true);
       formRef.current?.reset();
 
-      // Reset Turnstile after submit
-      if ((window as any).turnstile) {
-        (window as any).turnstile.reset();
+      // reset Turnstile safely
+      if ((window as any).turnstile && turnstileRef.current) {
+        (window as any).turnstile.reset(turnstileRef.current);
       }
     }
   }
@@ -77,13 +93,9 @@ function ContactForm() {
         required
       />
 
-      {/* ✅ CLEAN TURNSTILE (no React hacks needed) */}
+      {/* TURNSTILE (stable mount target) */}
       <div className="flex justify-center">
-        <div
-          className="cf-turnstile"
-          data-sitekey="invalid_key"
-          data-theme="dark"
-        />
+        <div ref={turnstileRef} />
       </div>
 
       <Button
@@ -101,7 +113,6 @@ function ContactForm() {
     </form>
   );
 }
-
 function AnimatedCard({ children, delay = 0 }: any) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
