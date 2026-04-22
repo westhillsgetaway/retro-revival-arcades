@@ -21,6 +21,7 @@ export default function ArcadeSite() {
 
 
 function Navbar() {
+const [open, setOpen] = React.useState(false);
 const [scrolled, setScrolled] = React.useState(false);
 
 React.useEffect(() => {
