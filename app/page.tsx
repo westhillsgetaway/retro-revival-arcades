@@ -230,7 +230,7 @@ function AnimatedCard({ children, delay = 0 }: any) {
   </video>
 
   {/* Dark overlay for readability */}
-  <div className="absolute inset-0 bg-black/60" />
+  <div className="absolute inset-0 bg-black/25" />
 
   {/* Content */}
   <div className="relative z-10 max-w-3xl">
